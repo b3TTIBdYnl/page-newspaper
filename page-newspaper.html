@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>開源號外 · GitHub 八大熱門專案特刊</title>
+<style>
+  /* ============ 老報紙『號外』風 ============ */
+  :root {
+    --ink: #1a1a1a;
+    --paper: #e8e2d2;
+  }
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 24px 12px 60px;
+    background: #555;
+    font-family: "Noto Serif SC", "Songti SC", "SimSun", serif;
+    color: var(--ink);
+  }
+
+  /* 油墨噪點 + 紙張紋理 */
+  .sheet {
+    max-width: 1100px;
+    margin: 0 auto;
+    background:
+      repeating-linear-gradient(0deg, rgba(0,0,0,.012) 0 1px, transparent 1px 3px),
+      radial-gradient(ellipse at 30% 20%, rgba(120,110,90,.12), transparent 60%),
+      radial-gradient(ellipse at 80% 90%, rgba(90,80,60,.10), transparent 50%),
+      var(--paper);
+    padding: 34px 38px 50px;
+    box-shadow: 0 4px 30px rgba(0,0,0,.55);
+    position: relative;
+    filter: contrast(1.04);
+  }
+  /* 版面污漬 */
+  .sheet::after {
+    content: "";
+    position: absolute; inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle 60px at 85% 12%, rgba(60,50,30,.08), transparent 70%),
+      radial-gradient(circle 40px at 10% 75%, rgba(60,50,30,.07), transparent 70%);
+  }
+
+  /* ---- 報頭：豎排『開源號外』 ---- */
+  header.masthead {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    border-bottom: 4px double var(--ink);
+    padding-bottom: 18px;
+    margin-bottom: 8px;
+  }
+  .mast-left {
+    writing-mode: vertical-rl;
+    font-size: 13px;
+    letter-spacing: 6px;
+    border-right: 1px solid var(--ink);
+    padding: 6px 10px 0 2px;
+    line-height: 1.6;
+    min-height: 210px;
+  }
+  .mast-title {
+    flex: 1;
+    text-align: center;
+  }
+  .mast-title .big {
+    writing-mode: vertical-rl;
+    display: inline-block;
+    font-size: 84px;
+    font-weight: 900;
+    letter-spacing: 18px;
+    line-height: 1.05;
+    margin: 0 auto;
+    font-family: "Noto Serif SC", "Kaiti SC", "STKaiti", "KaiTi", serif;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.25);
+  }
+  .mast-title .big .emphasis {
+    font-size: 108px;
+    border: 3px solid var(--ink);
+    padding: 4px 2px;
+    margin-top: 12px;
+  }
+  .mast-right {
+    writing-mode: vertical-rl;
+    font-size: 13px;
+    letter-spacing: 4px;
+    border-left: 1px solid var(--ink);
+    padding: 6px 2px 0 10px;
+    line-height: 1.8;
+    min-height: 210px;
+  }
+  .dateline {
+    text-align: center;
+    font-size: 13px;
+    letter-spacing: 3px;
+    border-bottom: 1px solid var(--ink);
+    padding: 8px 0;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .dateline span { flex: 1; }
+  .dateline .center {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 8px;
+  }
+
+  /* ---- 號外大字腰條 ---- */
+  .banner {
+    text-align: center;
+    margin: 4px 0 22px;
+  }
+  .banner .huwai {
+    display: inline-block;
+    border: 4px solid var(--ink);
+    padding: 6px 40px;
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: 22px;
+    transform: skewX(-3deg);
+    background: rgba(0,0,0,.04);
+  }
+
+  /* ---- 三欄排版本體 ---- */
+  .columns {
+    column-count: 3;
+    column-gap: 30px;
+    column-rule: 1px solid var(--ink);
+    text-align: justify;
+    font-size: 15px;
+    line-height: 1.95;
+  }
+  .columns p { margin: 0 0 14px; text-indent: 2em; }
+  .columns h2 {
+    column-span: all;
+    text-align: center;
+    font-size: 26px;
+    font-weight: 900;
+    letter-spacing: 6px;
+    margin: 6px 0 18px;
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    padding: 10px 0;
+  }
+  .lead::first-letter {
+    float: left;
+    font-size: 58px;
+    line-height: .9;
+    padding: 6px 8px 0 0;
+    font-weight: 900;
+    font-family: "Kaiti SC", "STKaiti", "KaiTi", serif;
+  }
+
+  /* ---- 新聞項 ---- */
+  article.news {
+    break-inside: avoid;
+    margin-bottom: 22px;
+    padding-bottom: 18px;
+    border-bottom: 1px dotted var(--ink);
+  }
+  article.news:last-child { border-bottom: none; }
+  article.news h3 {
+    font-size: 19px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    margin: 0 0 8px;
+    line-height: 1.5;
+  }
+  article.news h3 .kicker {
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 5px;
+    color: #333;
+    margin-bottom: 3px;
+  }
+  article.news .meta {
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #333;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 3px 0;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  article.news .meta .stars { font-weight: 700; }
+  article.news a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+  article.news p { text-indent: 2em; margin: 0 0 10px; text-align: justify; }
+
+  /* 花邊框『本報訊』 */
+  .benbao { font-weight: 900; border: 1px solid var(--ink); padding: 0 4px; font-size: 12px; vertical-align: 2px; margin-right: 4px; }
+
+  /* ---- 中縫小廣告欄 ---- */
+  .gutter {
+    column-span: all;
+    border: 3px double var(--ink);
+    margin: 6px 0 22px;
+    padding: 10px 14px;
+    text-align: center;
+    font-size: 13px;
+    letter-spacing: 3px;
+  }
+  .gutter b { letter-spacing: 6px; }
+
+  /* ---- 尾部 ---- */
+  .colophon {
+    margin-top: 26px;
+    border-top: 4px double var(--ink);
+    padding-top: 12px;
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 4px;
+    line-height: 2;
+  }
+  .seal {
+    display: inline-block;
+    border: 2px solid #8a2020;
+    color: #8a2020;
+    font-family: "Kaiti SC","STKaiti","KaiTi",serif;
+    font-size: 15px;
+    padding: 4px 8px;
+    letter-spacing: 4px;
+    transform: rotate(-4deg);
+    margin: 6px auto 0;
+    opacity: .85;
+  }
+  .top-btn {
+    position: fixed; bottom: 18px; right: 18px;
+    background: var(--paper); color: var(--ink);
+    border: 2px solid var(--ink);
+    font-family: "Noto Serif SC", serif;
+    padding: 8px 12px; font-size: 14px; letter-spacing: 3px;
+    cursor: pointer; box-shadow: 2px 2px 0 var(--ink);
+  }
+  .top-btn:hover { background: var(--ink); color: var(--paper); }
+
+  /* 直排裝飾側標 */
+  .side-tab {
+    position: absolute; top: 40px; right: -13px;
+    writing-mode: vertical-rl;
+    background: var(--ink); color: var(--paper);
+    font-size: 12px; letter-spacing: 6px; padding: 14px 3px;
+  }
+  @media (max-width: 820px) { .columns { column-count: 1; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <span class="side-tab">館 藏 原 版 影 印</span>
+
+  <header class="masthead">
+    <div class="mast-left">中華開源通訊社印行 · 每日發行 · 零售大洋伍分</div>
+    <div class="mast-title">
+      <div class="big">開<span class="emphasis">源</span>號外</div>
+    </div>
+    <div class="mast-right">第捌仟柒佰肆拾貳號 · 郵傳部立案 · 抄錄內閣檔案房</div>
+  </header>
+
+  <div class="dateline">
+    <span>中華民國一一四年十一月廿六日　星期三</span>
+    <span class="center">京師 · 滬上 · 穗城 同日發售</span>
+    <span>歲次乙巳蛇年　冬月吉日</span>
+  </div>
+
+  <div class="banner"><span class="huwai">號　外！</span></div>
+
+  <div class="columns">
+    <h2>GitHub 八大熱門專案調查錄</h2>
+
+    <p class="lead">本報訊　據本社駐碼農街特派員連日探訪：GitHub 開源碼市近日風雲際會，八大專案競逐星標，勢如奔馬。其中 agent 之類新學問蔚然成風，攜帶式智能體、記憶體、壓縮諸術層見疊出，士紳商賈莫不以先睹為快。今將八大要聞一一開列，以饗讀者。</p>
+
+    <article class="news">
+      <h3><span class="kicker">頭條 · 學界快訊</span>CLI-Anything 萬物皆可智能體　五萬五千星聲勢驚人</h3>
+      <div class="meta"><span>H K U D S 社 賽</span><span class="stars">★ 五五、三二七</span><span>Python</span></div>
+      <p><span class="benbao">本報訊</span>港區 HKUDS 研究社所出《CLI-Anything》倡「萬般軟體、盡歸智能體」之說，凡終端機可及之處，皆可令智能體代庖，一時附驥者眾。熱心人士更設 clianything.cc 之驛站，以廣其傳。行家評曰：此乃智能體本地化之要著，不可不察。</p>
+    </article>
+
+    <article class="news">
+      <h3><span class="kicker">專訪 · 人物誌</span>《Claude Code》碼上談兵　十五萬星冠絕同儕</h3>
+      <div class="meta"><span>安 索 羅 皮 克 出 品</span><span class="stars">★ 一五二、七〇一</span><span>TypeScript</span></div>
+      <p><span class="benbao">專電</span>anthropics 社《Claude Code》久居要津。此物棲身終端之內，通曉代碼全貌，凡例行勞役、疑難注疏、git 諸務，皆可一言而決。程式界譽之為「不出口之軍師」。星標累至十五萬有奇，足見人心所向。</p>
+    </article>
+
+    <article class="news">
+      <h3><span class="kicker">市場 · 大宗交易</span>《opencode》開放代碼智能體　二十一萬星執牛耳</h3>
+      <div class="meta"><span>a n o m a l y c o 社</span><span class="stars">★ 二一七、九三三</span><span>TypeScript</span></div>
+      <p><span class="benbao">快訊</span>anomalyco 社之《opencode》以「開源編碼智能體」名世，今日星標新增逾千，居八大之首。其勢如破竹，群雄側目。有識者云：智能體之爭，已由閉門造車轉入群雄逐鹿之局矣。</p>
+    </article>
+
+    <article class="news">
+      <h3><span class="kicker">求職 · 社會新聞</span>《ai-job-search》機器代覓差事　自宅即成薦頭行</h3>
+      <div class="meta"><span>M a d s L o r e n t z e n 賽</span><span class="stars">★ 五七、六六七</span><span>Python</span></div>
+      <p><span class="benbao">來稿</span>此物架於 Claude Code 之上，凡閱帖、裁履、修書、備試，一應俱全，且言明「fork 之即歸己有」。今歲就業維艱，此等以機代人、以技謀生之術，聞者莫不嘖嘖。星標今日驟增三千八百餘，為八大中升勢最疾者。</p>
+    </article>
+
+    <article class="news">
+      <h3><span class="kicker">金融 · 行情電報</span>《Kronos》窺探市場之語　金融大模型嶄露頭角</h3>
+      <div class="meta"><span>s h i y u - c o d e r 賽</span><span class="stars">★ 四一、七五四</span><span>Python</span></div>
+      <p><span class="benbao">電訊</span>《Kronos》自稱「金融市場語言之基座模型」，欲以一套模型通曉行情漲落之文法。華洋商界聞之動容，四萬餘星可為明證。至於能否點石成金，尚待時日驗之。</p>
+    </article>
+
+    <article class="news">
+      <h3><span class="kicker">技藝 · 格致新知</span>《ComfyUI》節點連環成畫　本地推理快逾奔馬</h3>
+      <div class="meta"><span>C o m f y - O r g 社</span><span class="stars">★ 一三九、八六三</span><span>Python</span></div>
+      <p><span class="benbao">專電</span>《ComfyUI》以圖形節點驅動擴散模型，凡丹青影像諸術，接線即成。自號「世間最快本地推理引擎」，畫師工匠趨之若鶩，十餘萬星，儼然一方諸侯。</p>
+    </article>
+
+    <article class="news">
+      <h3><span class="kicker">內務 · 奇巧淫技</span>《headroom》先壓縮後入模　省得三成柴米錢</h3>
+      <div class="meta"><span>h e a d r o o m l a b s 賽</span><span class="stars">★ 七六、三一一</span><span>Python</span></div>
+      <p><span class="benbao">探訪</span>此物專司「未入大模、先裁冗字」：工具輸出、日誌、檔案，皆壓縮而後進。編碼智能體省兩成token，JSON 類更省六至九成五。可為庫、可為代理、可為 MCP 之侍，用者稱便。</p>
+    </article>
+
+    <article class="news">
+      <h3><span class="kicker">追蹤 · 群雄並起</span>《ruflo》蜂群聽號令　《orca》艦隊聽調度</h3>
+      <div class="meta"><span>r u v n e t · s t a b l y a i 社</span><span class="stars">★ 七七、二八五／九八、四三〇</span><span>TypeScript</span></div>
+      <p><span class="benbao">綜合</span>《ruflo》自詡智能體調度之祖師，可放多兵蜂群、自習記憶、聯邦通訊；《orca》則設桌面、移動、遠端三路，統轄 Grok Bot、Claude Code 等艦隊，憑己之訂閱即可驅使。兩雄並立，智能體編排之爭方興未艾。另有《ai-memory》者（★一一、四五一，Rust），專司智能體長期記憶與各家交接，亦為坊間所重。</p>
+    </article>
+
+    <div class="gutter">
+      【中縫】<b>代寫書信</b>　智能體捉刀　童叟無欺　｜　<b>電報掛號</b>　G I T H U B　八〇〇八　｜　<b>本社啟事</b>　凡轉載本報文章　須註明出處　違者必究
+    </div>
+  </div>
+
+  <div class="colophon">
+    開 源 號 外 · G i t H u b 特 刊 · 八 大 專 案 附 錄<br>
+    以上星標數目係發稿時所錄　漲落無常　恕不另報<br>
+    <span class="seal">開源通訊社之印</span>
+  </div>
+</div>
+
+<button class="top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">▲ 回到版首</button>
+
+<script>
+  // 造紙紋理小把戲：隨機生成幾處油墨飛濺斑點，增做舊感
+  (function () {
+    var sheet = document.querySelector('.sheet');
+    for (var i = 0; i < 14; i++) {
+      var s = document.createElement('span');
+      var size = 1 + Math.random() * 3;
+      s.style.cssText = 'position:absolute;border-radius:50%;pointer-events:none;'
+        + 'width:' + size + 'px;height:' + size + 'px;'
+        + 'background:rgba(20,15,10,' + (0.12 + Math.random() * 0.18) + ');'
+        + 'left:' + (Math.random() * 100) + '%;top:' + (Math.random() * 100) + '%;';
+      sheet.appendChild(s);
+    }
+  })();
+
+  // 民國紀年自動校準（避免硬編碼過期）
+  (function () {
+    var spans = document.querySelectorAll('.dateline span');
+    if (!spans.length) return;
+    var now = new Date();
+    var minguo = now.getFullYear() - 1911;
+    var week = ['日','一','二','三','四','五','六'][now.getDay()];
+    spans[0].textContent = '中華民國' + minguo + '年' + (now.getMonth() + 1) + '月' + now.getDate() + '日　星期' + week;
+  })();
+</script>
+</body>
+</html>
